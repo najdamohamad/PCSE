@@ -1,6 +1,7 @@
   #include <cpu.h>
 #include <inttypes.h>
 #include <string.h>
+#include "time.h"
 
 // on peut s'entrainer a utiliser GDB avec ce code de base
 // par exemple afficher les valeurs de x, n et res avec la commande display
@@ -23,7 +24,8 @@ uint16_t *ptr_mem(uint32_t lig, uint32_t col)
 {
   uint16_t* p = (uint16_t*) (0xB8000 + 2*(80*lig + col)) ;
   return p ;
-}
+}// char* time1 ;
+// time1 = "00:00:00" ;
 
 void ecrit_car(uint32_t lig, uint32_t col, char c , uint32_t text , uint32_t fond)
 {
@@ -40,7 +42,7 @@ void efface_ecran()
   {
     for ( int j = 0; j<80 ; j++)
     {
-      ecrit_car(i,j,' ',0,15);
+      ecrit_car(i,j,' ',0,0);
 
     }
   }
@@ -200,7 +202,7 @@ void defilement(void)
 
 void console_putbytes(char *chaine, int32_t taille)
 {
-    traite_car('\f'); //effacer ecran
+    // traite_car('\f'); //effacer ecran
     for (int32_t i = 0; i < taille; i++){
         traite_car(chaine[i]);
     }
@@ -223,6 +225,8 @@ void console_putbytes(char *chaine, int32_t taille)
 
 
 
+
+
 void kernel_start(void)
 {
   //place_curseur(12 , 1);
@@ -236,16 +240,23 @@ void kernel_start(void)
    //     ecrit_car(i,j,'m',7,0);
    //   }
    // }
-   char* name ;
-   name = "mohamad" ;
-   console_putbytes(name,7/*strlen(name)*/);
-   
+   // char* name ;
+   // name = "mohamad" ;
+   // console_putbytes(name,7/*strlen(name)*/);
+
    //defilement();
     //ecrit_car(5,10,'K',15,0);
     //ecrit_car(15,40,'K',15,0);
 
-
+    //
     // on ne doit jamais sortir de kernel_start
+
+
+    //time functions :
+    char* time1 ;
+    time1 = "00:00:00" ;
+    affichetempsadroite(time1);
+
     while (1) {
         // cette fonction arrete le processeur
         hlt();
