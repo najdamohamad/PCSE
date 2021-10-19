@@ -19,12 +19,14 @@ void init_traitant_IT(int32_t num_IT, void (*traitant)(void))
   //ptr declaration
   uint32_t* ptr_table = (uint32_t*)0x1000 ;
   uint32_t* ptr_kernel = ptr_table + num_IT*2 ;// +1 --> 4bytes(1/2 case) ; we need 32 cases of 8bytes each ;
-  uint32_t* ptr_pfa = ptr_kernel+ 1/2 ;
-  uint32_t* ptr_pfo = ptr_pfa + 1/2 ;
-  uint32_t* ptr_cte = ptr_pfo + 1/2 ;
+  *ptr_kernel = KERNEL_CS ;
+  // uint32_t* ptr_pfa = ptr_kernel ;
+  // uint32_t* ptr_pfo = ptr_pfa + 1/2 ;
+  // uint32_t* ptr_cte = ptr_pfo + 1/2 ;
+  
 
   //fill the ptrs
-  *ptr_kernel = KERNEL_CS ;
+
   *ptr_pfa = traitant && 0xFFFF ;
   *ptr_pfo = ((uint32_t)traitant >> 16) && 0xFFFF ;
   *ptr_cte = 0x8E00 ;
@@ -57,6 +59,7 @@ void tic_PIT(void)
   }
   char output[50] ;
   sprintf(output," %d :%d :%d ",hours,minutes,seconds);
+  affichetempsadroite("output");
 }
 
 uint16_t frequence ;

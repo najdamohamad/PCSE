@@ -259,7 +259,11 @@ void kernel_start(void)
     extern void traitant_IT_32();
     init_traitant_IT(32,traitant_IT_32) ;
     reglagefrequence() ;
-    masque_IRQ(0,0);
+    for(int i =0 ;i< 8 ; i++)
+    {
+      masque_IRQ(i,0);
+    }
+
     sti() ;
 
 
