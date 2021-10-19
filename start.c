@@ -253,9 +253,15 @@ void kernel_start(void)
 
 
     //time functions :
-    char* time1 ;
-    time1 = "00:00:00" ;
-    affichetempsadroite(time1);
+    // char* time1 ;
+    // time1 = "00:00:00" ;
+    // affichetempsadroite(time1);
+    extern void traitant_IT_32();
+    init_traitant_IT(32,traitant_IT_32) ;
+    reglagefrequence() ;
+    masque_IRQ(0,0);
+    sti() ;
+
 
     while (1) {
         // cette fonction arrete le processeur

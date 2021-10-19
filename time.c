@@ -12,6 +12,7 @@ void affichetempsadroite(char* time1)
   console_putbytes(time1,strlen(time1));
 }
 
+extern void traitant_IT_32();
 
 void init_traitant_IT(int32_t num_IT, void (*traitant)(void))
 {
@@ -24,8 +25,8 @@ void init_traitant_IT(int32_t num_IT, void (*traitant)(void))
 
   //fill the ptrs
   *ptr_kernel = KERNEL_CS ;
-  *ptr_pfa = traitant && 0x1111 ;
-  *ptr_pfo = ((uint32_t)traitant >> 16) && 0x1111 ;
+  *ptr_pfa = traitant && 0xFFFF ;
+  *ptr_pfo = ((uint32_t)traitant >> 16) && 0xFFFF ;
   *ptr_cte = 0x8E00 ;
 
 }
@@ -68,13 +69,12 @@ void reglagefrequence()
 
 }
 
-void recievefreq()
+void receivefreq()
 {
   inb(0x43);
   uint8_t pfa = inb(0x40);
-  uint166_t pfo = inb(0x40);
+  uint16_t pfo = inb(0x40);
   pfo = pfo << 8 ;
-  pfo = pfo | 0x11 ;
   pfo = pfo + pfa ;
 }
 
