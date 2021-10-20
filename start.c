@@ -82,7 +82,7 @@ void place_curseur(uint32_t lig, uint32_t col)
 //           {
 //             place_curseur(lig , col+8);
 //           }
-//
+//affichetempsadroite(output);
 //         break;
 //
 //
@@ -223,7 +223,7 @@ void console_putbytes(char *chaine, int32_t taille)
 
 
 
-
+extern void traitant_IT_32();
 
 
 
@@ -256,16 +256,16 @@ void kernel_start(void)
     // char* time1 ;
     // time1 = "00:00:00" ;
     // affichetempsadroite(time1);
-    extern void traitant_IT_32();
-    init_traitant_IT(32,traitant_IT_32) ;
+
+    //efface_ecran() ;
+
     reglagefrequence() ;
-    for(int i =0 ;i< 8 ; i++)
-    {
-      masque_IRQ(i,0);
-    }
-
+    init_traitant_IT(32,traitant_IT_32) ;
+    //masque_IRQ(0,0);
+    mask0() ;
     sti() ;
-
+    // char c[50] = "moe" ;
+    // affichetempsadroite(c) ;
 
     while (1) {
         // cette fonction arrete le processeur

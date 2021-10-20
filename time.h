@@ -10,3 +10,5 @@ void tic_PIT(void);
 void reglagefrequence();
 void receivefreq();
 void masque_IRQ(uint32_t num_IRQ, bool masque);
+void mask0() ;
+extern void traitant_IT_32();
