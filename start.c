@@ -2,6 +2,10 @@
 #include <inttypes.h>
 #include <string.h>
 #include "time.h"
+#include "processus.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 
 // on peut s'entrainer a utiliser GDB avec ce code de base
 // par exemple afficher les valeurs de x, n et res avec la commande display
@@ -224,6 +228,7 @@ void console_putbytes(char *chaine, int32_t taille)
 
 
 extern void traitant_IT_32();
+extern void ctx_sw(int *save , int *restsore);
 
 
 
@@ -258,14 +263,40 @@ void kernel_start(void)
     // affichetempsadroite(time1);
 
     //efface_ecran() ;
+      //masque_IRQ(0,0);
+    //  masque_IRQ(0,0) ;
 
-    reglagefrequence() ;
-    init_traitant_IT(32,traitant_IT_32) ;
-    //masque_IRQ(0,0);
-    mask0() ;
-    sti() ;
+    //time :
+    // reglagefrequence() ;
+    // init_traitant_IT(32,traitant_IT_32) ;
+    // mask0();
+    // sti() ;
+
+
+
     // char c[50] = "moe" ;
     // affichetempsadroite(c) ;
+
+    struct processus idle  ;
+    idle.pid = 0 ; 
+    strcpy(idle.name , "idle" );
+    idle.etat = elu ;
+
+    
+    struct processus proc1 ;
+    proc1.pid = 1 ;
+    strcpy(proc1.name , "proc1" );    
+    proc1.etat = activable ;
+    proc1.sauvegard[1] = (int) proc1.pile + 511 ;
+    *(proc1.pile + 511) = (int)  proc1_function ; 
+
+
+    table_of_processus[0] = idle ;
+    table_of_processus[1] = proc1 ;
+
+
+
+    idle_function();
 
     while (1) {
         // cette fonction arrete le processeur
