@@ -287,8 +287,10 @@ void kernel_start(void)
     proc1.pid = 1 ;
     strcpy(proc1.name , "proc1" );    
     proc1.etat = activable ;
-    proc1.sauvegard[1] = (int) proc1.pile + 511 ;
-    *(proc1.pile + 511) = (int)  proc1_function ; 
+    proc1.sauvegard[1] = (int)(proc1.pile + 511) ;
+    proc1.pile[511] =  (int) proc1_func; 
+
+    
 
 
     table_of_processus[0] = idle ;
@@ -296,8 +298,9 @@ void kernel_start(void)
 
 
 
-    idle_function();
-
+    // idle_function();
+    idle_func();
+    proc1_func();
     while (1) {
         // cette fonction arrete le processeur
         hlt();
