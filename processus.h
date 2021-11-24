@@ -13,8 +13,11 @@ struct processus{
     int pile[512];
 };
 
+
+
 struct processus table_of_processus[2];
 
+struct processus* actif ;
 // void idle_function(void);
 // void proc1_function(void);
 
@@ -23,4 +26,6 @@ void proc1_func(void);
 int32_t mon_pid(void);
 char *mon_nom(void);
 void ordonnance(void);
+void idle_ord(void); 
+void proc1_ord(void);
 

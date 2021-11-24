@@ -44,31 +44,43 @@
 
 
 /////////////////////////////////ORDONNANCE//////////////////////////////
-void mon_pid(void)
+int mon_pid(void)
 {
-
+    return actif->pid ;
 }
 
-void mon_nom(void)
+int ton_pid(void)
 {
+    int t = mon_pid();
+    t = 1 - t ; //inverser 0 et 1 --> obtenir l'autre pid //
+    return t ;
+}
 
+char* mon_nom(void)
+{
+    return actif->name ;
 }
 
 
 void ordonnance(void)
-{
-    if()
+{   
+    table_of_processus[mon_pid()].etat = activable ; 
+    table_of_processus[ton_pid()].etat = elu ;  
+    
+    ctx_sw(table_of_processus[mon_pid()].sauvegard ,
+    table_of_processus[ton_pid()].sauvegard );
+   
 }
 
 
-void idle(void)
+void idle_ord(void)
 {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
         ordonnance();
     }
 }
-void proc1(void) {
+void proc1_ord(void) {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
         ordonnance();

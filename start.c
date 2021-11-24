@@ -298,11 +298,21 @@ void kernel_start(void)
 
 
 
-    // idle_function();
-    idle_func();
-    proc1_func();
-    while (1) {
-        // cette fonction arrete le processeur
-        hlt();
-    }
+    // Aller// idle_function();
+
+    /////////////////////////////aller-retour 3fois/////////////////////
+     //idle_func();
+     //proc1_func();
+
+
+
+    ////////////////////////////ORDONNANCE/////////////////////////////
+
+    idle_ord(); 
+    proc1_ord();
+
+    // while (1) {
+    //     // cette fonction arrete le processeur
+    //     hlt();
+    // }
 }
