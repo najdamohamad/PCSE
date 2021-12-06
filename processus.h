@@ -17,7 +17,7 @@ struct processus{
 
 struct processus table_of_processus[2];
 
-struct processus* actif ;
+//struct processus* actif ;
 // void idle_function(void);
 // void proc1_function(void);
 

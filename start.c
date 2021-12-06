@@ -309,7 +309,7 @@ void kernel_start(void)
     ////////////////////////////ORDONNANCE/////////////////////////////
 
     idle_ord(); 
-    proc1_ord();
+    //proc1_ord();
 
     // while (1) {
     //     // cette fonction arrete le processeur

@@ -44,31 +44,33 @@
 
 
 /////////////////////////////////ORDONNANCE//////////////////////////////
+
+int current_pid = 0 ;
+int next_pid = 0 ;
+int nb_processus = 2 ;
+
 int mon_pid(void)
 {
-    return actif->pid ;
+    return table_of_processus[current_pid].pid ;    
 }
 
-int ton_pid(void)
-{
-    int t = mon_pid();
-    t = 1 - t ; //inverser 0 et 1 --> obtenir l'autre pid //
-    return t ;
-}
 
 char* mon_nom(void)
 {
-    return actif->name ;
+    return table_of_processus[current_pid].name ;
 }
 
 
 void ordonnance(void)
 {   
-    table_of_processus[mon_pid()].etat = activable ; 
-    table_of_processus[ton_pid()].etat = elu ;  
+    current_pid = next_pid ;
+
+    next_pid = table_of_processus[ (previous_pid + 1)%nb_processus ].pid ;
+
+    table_of_processus[current_pid].etat = activable ; 
+    table_of_processus[next_pid].etat = elu ;  
     
-    ctx_sw(table_of_processus[mon_pid()].sauvegard ,
-    table_of_processus[ton_pid()].sauvegard );
+    ctx_sw(table_of_processus[previous_pid].sauvegard , table_of_processus[current_pid].sauvegard );
    
 }
 
