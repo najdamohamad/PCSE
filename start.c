@@ -1,10 +1,6 @@
-  #include <cpu.h>
-#include <inttypes.h>
-#include <string.h>
-#include "time.h"
+
 #include "processus.h"
-#include <stdio.h>
-#include <stdlib.h>
+
 
 
 // on peut s'entrainer a utiliser GDB avec ce code de base
@@ -277,6 +273,9 @@ void kernel_start(void)
     // char c[50] = "moe" ;
     // affichetempsadroite(c) ;
 
+
+   
+    efface_ecran();
     struct processus idle  ;
     idle.pid = 0 ; 
     strcpy(idle.name , "idle" );
@@ -288,7 +287,7 @@ void kernel_start(void)
     strcpy(proc1.name , "proc1" );    
     proc1.etat = activable ;
     proc1.sauvegard[1] = (int)(proc1.pile + 511) ;
-    proc1.pile[511] =  (int) proc1_func; 
+    proc1.pile[511] =  (int) proc1_ord; 
 
     
 
@@ -308,11 +307,11 @@ void kernel_start(void)
 
     ////////////////////////////ORDONNANCE/////////////////////////////
 
-    idle_ord(); 
+     idle_ord(); 
     //proc1_ord();
 
-    // while (1) {
-    //     // cette fonction arrete le processeur
-    //     hlt();
-    // }
+    while (1) {
+        // cette fonction arrete le processeur
+        hlt();
+    }
 }

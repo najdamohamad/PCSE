@@ -65,12 +65,12 @@ void ordonnance(void)
 {   
     current_pid = next_pid ;
 
-    next_pid = table_of_processus[ (previous_pid + 1)%nb_processus ].pid ;
+    next_pid = table_of_processus[ (current_pid + 1)%nb_processus ].pid ;
 
     table_of_processus[current_pid].etat = activable ; 
     table_of_processus[next_pid].etat = elu ;  
     
-    ctx_sw(table_of_processus[previous_pid].sauvegard , table_of_processus[current_pid].sauvegard );
+    ctx_sw(table_of_processus[current_pid].sauvegard , table_of_processus[next_pid].sauvegard );
    
 }
 

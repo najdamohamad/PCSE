@@ -5,6 +5,13 @@
 
 #ifndef ASSEMBLER
 
+#include <cpu.h>
+#include <inttypes.h>
+#include <string.h>
+#include "time.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 extern char first_stack[FIRST_STACK_SIZE];
 
 /* The kernel entry point */
