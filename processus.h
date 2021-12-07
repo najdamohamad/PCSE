@@ -13,7 +13,7 @@ struct processus{
     int pile[512];
 };
 
-
+//int nb_processus = 4
 
 struct processus table_of_processus[2];
 
@@ -28,4 +28,4 @@ char *mon_nom(void);
 void ordonnance(void);
 void idle_ord(void); 
 void proc1_ord(void);
-
+int32_t cree_processus(void (*code)(void), char *nom):

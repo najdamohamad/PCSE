@@ -276,19 +276,22 @@ void kernel_start(void)
 
    
     efface_ecran();
+
+
     struct processus idle  ;
     idle.pid = 0 ; 
     strcpy(idle.name , "idle" );
     idle.etat = elu ;
 
     
-    struct processus proc1 ;
-    proc1.pid = 1 ;
-    strcpy(proc1.name , "proc1" );    
-    proc1.etat = activable ;
-    proc1.sauvegard[1] = (int)(proc1.pile + 511) ;
-    proc1.pile[511] =  (int) proc1_ord; 
+    // struct processus proc1 ;
+    // proc1.pid = 1 ;
+    // strcpy(proc1.name , "proc1" );    
+    // proc1.etat = activable ;
+    // proc1.sauvegard[1] = (int)(proc1.pile + 511) ;
+    // proc1.pile[511] =  (int) proc1_ord; 
 
+    cree_processus()
     
 
 
