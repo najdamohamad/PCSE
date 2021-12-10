@@ -47,7 +47,7 @@
 
 int current_pid = 0 ;
 int next_pid = 0 ;
-int nb_processus = 1 ;
+int  nb_processus =  1 ;
 
 int mon_pid(void)
 {
@@ -71,6 +71,7 @@ void ordonnance(void)
     table_of_processus[next_pid].etat = elu ;  
     
     ctx_sw(table_of_processus[current_pid].sauvegard , table_of_processus[next_pid].sauvegard );
+ 
    
 }
 
@@ -82,31 +83,35 @@ void idle_ord(void)
         ordonnance();
     }
 }
-void proc1_ord(void) {
-    for (;;) {
-        printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-       
-    }
-}
 void proc2_ord(void) {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-     
+        ordonnance();
+       
     }
 }
 void proc3_ord(void) {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-      
+        ordonnance();
+    }
+}
+void proc4_ord(void) {
+    for (;;) {
+        printf("[%s] pid = %i\n", mon_nom(), mon_pid());
+        ordonnance();
     }
 }
 
 int32_t cree_processus(void (*code)(void), char *nom)
 {
     nb_processus ++ ;
-
-    struct processus new_pid ;
-    new_pid.pid = nb_processus ;
+    if(nb_processus > nb_processus_max) 
+    {
+        printf("ERROR NB PROCESSUS EXEEDED");
+    }
+    processus new_pid ;
+    new_pid.pid = nb_processus -1  ;
     strcpy(new_pid.name , nom ) ; 
     if(nb_processus == 1)
         new_pid.etat = activable ;
@@ -115,6 +120,7 @@ int32_t cree_processus(void (*code)(void), char *nom)
 
     new_pid.sauvegard[1] = (int)(new_pid.pile + 511) ;
     new_pid.pile[511] =  (int) code; 
+    table_of_processus[nb_processus -1] = new_pid ;
     return nb_processus;
   
 

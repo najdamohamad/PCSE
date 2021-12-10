@@ -5,17 +5,22 @@
 #include <stdbool.h>
 
 
-struct processus{
+
+#define nb_processus_max 4 
+
+typedef struct processus{
     int pid ;
     char name[50];
-    enum {elu, activable , endormi }etat;
+    enum {elu, activable, endormi }etat;
     int sauvegard[5];
     int pile[512];
-};
+}processus ;
 
-//int nb_processus = 4
 
-struct processus table_of_processus[2];
+
+
+
+processus table_of_processus[4];
 
 //struct processus* actif ;
 // void idle_function(void);
@@ -27,5 +32,7 @@ int32_t mon_pid(void);
 char *mon_nom(void);
 void ordonnance(void);
 void idle_ord(void); 
-void proc1_ord(void);
-int32_t cree_processus(void (*code)(void), char *nom):
+void proc2_ord(void);
+void proc3_ord(void);
+void proc4_ord(void);
+int32_t cree_processus(void (*code)(void), char *nom);

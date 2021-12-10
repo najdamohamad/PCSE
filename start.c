@@ -290,13 +290,17 @@ void kernel_start(void)
     // proc1.etat = activable ;
     // proc1.sauvegard[1] = (int)(proc1.pile + 511) ;
     // proc1.pile[511] =  (int) proc1_ord; 
+    int i,j,k ;
+    i = cree_processus(proc2_ord , "proc2");
+    j = cree_processus(proc3_ord , "proc3");
+    k = cree_processus(proc4_ord , "proc4");
 
-    cree_processus()
+    printf(" %d \t %d \t %d \t ", i, j , k );
     
 
 
     table_of_processus[0] = idle ;
-    table_of_processus[1] = proc1 ;
+    
 
 
 
