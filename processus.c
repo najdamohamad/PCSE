@@ -65,7 +65,7 @@ void ordonnance(void)
 {   
     current_pid = next_pid ;
 
-    next_pid = table_of_processus[ (current_pid + 1)%nb_processus ].pid ;
+    next_pid = table_of_processus[ (current_pid + 1)%nb_processus_max ].pid ;
 
     table_of_processus[current_pid].etat = activable ; 
     table_of_processus[next_pid].etat = elu ;  
@@ -82,25 +82,26 @@ void idle_ord(void)
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
         ordonnance();
     }
+    
 }
 void proc2_ord(void) {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-        ordonnance();
-       
+         ordonnance(); 
     }
+   
 }
 void proc3_ord(void) {
-    for (;;) {
+    for (;;)  {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
         ordonnance();
     }
 }
 void proc4_ord(void) {
-    for (;;) {
+    for (;; ) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
         ordonnance();
-    }
+    };
 }
 
 int32_t cree_processus(void (*code)(void), char *nom)
@@ -109,18 +110,20 @@ int32_t cree_processus(void (*code)(void), char *nom)
     if(nb_processus > nb_processus_max) 
     {
         printf("ERROR NB PROCESSUS EXEEDED");
+        return -1 ;
     }
     processus new_pid ;
-    new_pid.pid = nb_processus -1  ;
-    strcpy(new_pid.name , nom ) ; 
-    if(nb_processus == 1)
-        new_pid.etat = activable ;
-    else
-        new_pid.etat = endormi ; 
-
-    new_pid.sauvegard[1] = (int)(new_pid.pile + 511) ;
-    new_pid.pile[511] =  (int) code; 
+    new_pid.pid = 0 ;
     table_of_processus[nb_processus -1] = new_pid ;
+    table_of_processus[nb_processus -1].pid = nb_processus -1  ;
+    strcpy( table_of_processus[nb_processus-1].name , nom ) ; 
+    // if(nb_processus == 1)
+    table_of_processus[nb_processus -1].etat = activable ;
+    // else
+    //     new_pid.etat = endormi ; 
+    table_of_processus[nb_processus-1].pile[511] = (int) code; 
+    table_of_processus[nb_processus- 1].sauvegard[1] = (uint32_t)&table_of_processus[nb_processus-1].pile[511]; //(int)(new_pid.pile + 510) ;
+    
     return nb_processus;
   
 
