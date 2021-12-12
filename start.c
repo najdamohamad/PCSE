@@ -258,15 +258,16 @@ void kernel_start(void)
     // time1 = "00:00:00" ;
     // affichetempsadroite(time1);
 
-    //efface_ecran() ;
-      //masque_IRQ(0,0);
-    //  masque_IRQ(0,0) ;
+    // efface_ecran() ;
+    // masque_IRQ(0,0);
+    // masque_IRQ(0,0) ;
 
     //time :
-    // reglagefrequence() ;
-    // init_traitant_IT(32,traitant_IT_32) ;
-    // mask0();
-    // sti() ;
+    efface_ecran();
+    reglagefrequence() ;
+    init_traitant_IT(32,traitant_IT_32) ;
+    masque_IRQ(0,false);
+    sti() ;
 
 
 
@@ -275,7 +276,7 @@ void kernel_start(void)
 
 
    
-    efface_ecran();
+    //efface_ecran();
 
 
     struct processus idle  ;
@@ -314,7 +315,7 @@ void kernel_start(void)
 
     ////////////////////////////ORDONNANCE/////////////////////////////
 
-     idle_ord(); 
+     //idle_ord(); 
     //proc1_ord();
 
     while (1) {

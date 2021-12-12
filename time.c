@@ -29,25 +29,36 @@ void init_traitant_IT(int32_t num_IT, void (*traitant)(void))
 uint32_t seconds = 0 ;
 uint32_t minutes = 0 ;
 uint32_t hours = 0 ;
+uint32_t s = 0 ;
+
 
 void tic_PIT(void)
 {
+  
   outb(0x20,0x20);
-  seconds ++ ;
-  if (seconds == 60 )
+  s++ ;
+ if(s == 50)
   {
-    seconds = 0 ;
-    minutes ++ ;
-    if(minutes == 60)
+      seconds ++ ;
+      s = 0 ;
+    if (seconds == 60 )
     {
-      minutes = 0;
-      seconds = 0;
-      hours ++ ;
-      if(hours == 24)
+      s = 0 ;
+      seconds = 0 ;
+      minutes ++ ;
+      if(minutes == 60)
       {
-        hours = 0 ;
-        minutes = 0 ;
-        seconds = 0 ;
+        minutes = 0;
+        s = 0 ;
+        seconds = 0;
+        hours ++ ;
+        if(hours == 24)
+        {
+          hours = 0 ;
+          minutes = 0 ;
+          seconds = 0 ;
+          s = 0 ;
+        }
       }
     }
   }
@@ -77,25 +88,25 @@ void reglagefrequence()
 //   pfo = pfo + pfa ;
 // }
 
-void masque_IRQ(uint32_t num_IRQ, bool masque)
-{
-  uint8_t oct = inb(0x21) ;
-  if(masque == 1)
-  {
-    uint8_t mask2 = 1 << num_IRQ ;
-    oct = oct | mask2 ;
-  }
-  else
-  {
-    uint8_t mask2 = 0 << num_IRQ ;
-    oct = ~oct ;
-    oct = oct | mask2 ;
-    oct = ~oct ;
-  }
+// void masque_IRQ(uint32_t num_IRQ, bool masque)
+// {
+//   uint8_t oct = inb(0x21) ;
+//   if(masque == 1)
+//   {
+//     uint8_t mask2 = 1 << num_IRQ ;
+//     oct = oct | mask2 ;
+//   }
+//   else
+//   {
+//     uint8_t mask2 = 0 << num_IRQ ;
+//     oct = ~oct ;
+//     oct = oct | mask2 ;
+//     oct = ~oct ;
+//   }
 
-  outb(oct,0x21) ;
+//   outb(oct,0x21) ;
 
-}
+// }
 
 void mask0()
 {
@@ -105,100 +116,100 @@ void mask0()
     oct = ~oct ;
       outb(oct,0x21) ;
 }
-// void masque_IRQ(uint32_t num_IRQ, bool masque)
-// {
-//   uint8_t oct = inb(0x21) ;
-//   switch (num_IRQ) {
-//   case 7:
-//       if(masque)
-//       {
-//         oct = oct | 0b10000000 ;
-//       }
-//       else
-//       {
-//         oct = ~oct ;
-//         oct = oct | 0b10000000 ;
-//         oct = ~oct ;
-//       }
-//   case 6 :
-//     if(masque)
-//     {
-//       oct = oct | 0b01000000 ;
-//     }
-//     else
-//     {
-//       oct = ~oct ;
-//       oct = oct | 0b01000000 ;
-//       oct = ~oct ;
-//     }
-//   case 5:
-//     if(masque)
-//     {
-//       oct = oct | 0b00100000 ;
-//     }
-//     else
-//     {
-//       oct = ~oct ;
-//       oct = oct | 0b00100000 ;
-//       oct = ~oct ;
-//     }
-//   case 4:
-//     if(masque)
-//     {
-//       oct = oct | 0b00010000 ;
-//     }
-//     else
-//     {
-//       oct = ~oct ;
-//       oct = oct | 0b00010000 ;
-//       oct = ~oct ;
-//     }
-//   case 3:
-//     if(masque)
-//     {
-//       oct = oct | 0b00001000 ;
-//     }
-//     else
-//     {
-//       oct = ~oct ;
-//       oct = oct | 0b00001000 ;
-//       oct = ~oct ;
-//     }
-//   case 2:
-//     if(masque)
-//     {
-//       oct = oct | 0b00000100 ;
-//     }
-//     else
-//     {
-//       oct = ~oct ;
-//       oct = oct | 0b00000100 ;
-//       oct = ~oct ;
-//     }
-//   case 1:
-//       if(masque)
-//       {
-//         oct = oct | 0b00000010 ;
-//       }
-//       else
-//       {
-//         oct = ~oct ;
-//         oct = oct | 0b00000010 ;
-//         oct = ~oct ;
-//       }
-//   case 0:
-//         if(masque)
-//         {
-//           oct = oct | 0b00000001 ;
-//         }
-//         else
-//         {
-//           oct = ~oct ;
-//           oct = oct | 0b00000001 ;
-//           oct = ~oct ;
-//         }
-//
-//       }
-//       outb(oct,0x21) ;
-//
-// }
+void masque_IRQ(uint32_t num_IRQ, bool masque)
+{
+  uint8_t oct = inb(0x21) ;
+  switch (num_IRQ) {
+  case 7:
+      if(masque)
+      {
+        oct = oct | 0b10000000 ;
+      }
+      else
+      {
+        oct = ~oct ;
+        oct = oct | 0b10000000 ;
+        oct = ~oct ;
+      }
+  case 6 :
+    if(masque)
+    {
+      oct = oct | 0b01000000 ;
+    }
+    else
+    {
+      oct = ~oct ;
+      oct = oct | 0b01000000 ;
+      oct = ~oct ;
+    }
+  case 5:
+    if(masque)
+    {
+      oct = oct | 0b00100000 ;
+    }
+    else
+    {
+      oct = ~oct ;
+      oct = oct | 0b00100000 ;
+      oct = ~oct ;
+    }
+  case 4:
+    if(masque)
+    {
+      oct = oct | 0b00010000 ;
+    }
+    else
+    {
+      oct = ~oct ;
+      oct = oct | 0b00010000 ;
+      oct = ~oct ;
+    }
+  case 3:
+    if(masque)
+    {
+      oct = oct | 0b00001000 ;
+    }
+    else
+    {
+      oct = ~oct ;
+      oct = oct | 0b00001000 ;
+      oct = ~oct ;
+    }
+  case 2:
+    if(masque)
+    {
+      oct = oct | 0b00000100 ;
+    }
+    else
+    {
+      oct = ~oct ;
+      oct = oct | 0b00000100 ;
+      oct = ~oct ;
+    }
+  case 1:
+      if(masque)
+      {
+        oct = oct | 0b00000010 ;
+      }
+      else
+      {
+        oct = ~oct ;
+        oct = oct | 0b00000010 ;
+        oct = ~oct ;
+      }
+  case 0:
+        if(masque)
+        {
+          oct = oct | 0b00000001 ;
+        }
+        else
+        {
+          oct = ~oct ;
+          oct = oct | 0b00000001 ;
+          oct = ~oct ;
+        }
+
+      }
+      outb(oct,0x21) ;
+
+}
