@@ -267,7 +267,7 @@ void kernel_start(void)
     reglagefrequence() ;
     init_traitant_IT(32,traitant_IT_32) ;
     masque_IRQ(0,false);
-    sti() ;
+    //sti() ;
 
 
 
@@ -283,6 +283,7 @@ void kernel_start(void)
     idle.pid = 0 ; 
     strcpy(idle.name , "idle" );
     idle.etat = elu ;
+    idle.wake_up = 0 ;
 
     
     // struct processus proc1 ;
@@ -315,11 +316,11 @@ void kernel_start(void)
 
     ////////////////////////////ORDONNANCE/////////////////////////////
 
-     //idle_ord(); 
+    idle_ord(); 
     //proc1_ord();
 
     while (1) {
         // cette fonction arrete le processeur
-        hlt();
+       // hlt();
     }
 }

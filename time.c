@@ -3,12 +3,14 @@
 #include "segment.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "processus.h"
+//#include "processus.c"
 
 
 void affichetempsadroite(char* time1)
 {
   efface_ecran();
-  place_curseur(0,70);
+  place_curseur(0,71);
   console_putbytes(time1,strlen(time1));
 }
 
@@ -22,7 +24,7 @@ void init_traitant_IT(int32_t num_IT, void (*traitant)(void))
   *ptr_kernel = (KERNEL_CS << 16) | ((uint32_t)traitant & 0xFFFF);
   uint32_t* ptr_cte = ptr_kernel + 1  ;
   *ptr_cte = (((uint32_t)traitant) & 0xFFFF0000) |  (0x00008E00) ;
-
+   
 
 }
 
@@ -36,6 +38,7 @@ void tic_PIT(void)
 {
   
   outb(0x20,0x20);
+  
   s++ ;
  if(s == 50)
   {
@@ -61,6 +64,8 @@ void tic_PIT(void)
         }
       }
     }
+    ordonnance();
+    
   }
   char output[50] ;
   sprintf(output," %d :%d :%d ",hours,minutes,seconds);

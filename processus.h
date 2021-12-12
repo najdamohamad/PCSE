@@ -11,9 +11,10 @@
 typedef struct processus{
     int pid ;
     char name[50];
-    enum {elu, activable, endormi }etat;
+    enum {elu, activable, endormi } etat;
     int sauvegard[5];
     int pile[512];
+    uint32_t wake_up ;
 }processus ;
 
 
@@ -36,3 +37,4 @@ void proc2_ord(void);
 void proc3_ord(void);
 void proc4_ord(void);
 int32_t cree_processus(void (*code)(void), char *nom);
+void dors(uint32_t nbr_secs);

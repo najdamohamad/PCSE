@@ -48,6 +48,14 @@
 int current_pid = 0 ;
 int next_pid = 0 ;
 int  nb_processus =  1 ;
+extern int seconds ;
+
+void dors(uint32_t nbr_secs)
+{
+    table_of_processus[current_pid].etat = endormi ;
+    table_of_processus[current_pid].wake_up = nbr_secs + seconds ;
+
+}
 
 int mon_pid(void)
 {
@@ -63,44 +71,88 @@ char* mon_nom(void)
 
 void ordonnance(void)
 {   
-    current_pid = next_pid ;
-
-    next_pid = table_of_processus[ (current_pid + 1)%nb_processus_max ].pid ;
-
-    table_of_processus[current_pid].etat = activable ; 
-    table_of_processus[next_pid].etat = elu ;  
     
-    ctx_sw(table_of_processus[current_pid].sauvegard , table_of_processus[next_pid].sauvegard );
+    //if( table_of_processus[current_pid].wake_up < 0 )
+    //{   
+        current_pid = next_pid ;
+        next_pid = table_of_processus[ (current_pid + 1)%nb_processus_max ].pid ;
+
+        table_of_processus[current_pid].etat = activable ; 
+        table_of_processus[next_pid].etat = elu ;  
+        ctx_sw(table_of_processus[current_pid].sauvegard , table_of_processus[next_pid].sauvegard );
+    //}  
+        
+    
+    
  
    
 }
 
 
+// void idle_ord(void)
+// {
+//     for (;;) {
+//         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
+//         ordonnance();
+//     }
+    
+// }
+// void proc2_ord(void) {
+//     for (;;) {
+//         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
+//          ordonnance(); 
+//     }
+   
+// }
+// void proc3_ord(void) {
+//     for (;;)  {
+//         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
+//         ordonnance();
+//     }
+// }
+// void proc4_ord(void) {
+//     for (;; ) {
+//         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
+//         ordonnance();
+//     };
+// }
+
 void idle_ord(void)
 {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-        ordonnance();
+        sti();
+        hlt();
+        cli();
     }
     
 }
 void proc2_ord(void) {
     for (;;) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-         ordonnance(); 
+        sti();
+        hlt();
+        cli();
+        dors(2);
     }
    
 }
 void proc3_ord(void) {
     for (;;)  {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-        ordonnance();
+        sti();
+        hlt();
+        cli();
+        dors(3);
     }
 }
 void proc4_ord(void) {
     for (;; ) {
         printf("[%s] pid = %i\n", mon_nom(), mon_pid());
-        ordonnance();
+        sti();
+        hlt();
+        cli();
+        dors(5);
     };
 }
 
@@ -119,10 +171,11 @@ int32_t cree_processus(void (*code)(void), char *nom)
     strcpy( table_of_processus[nb_processus-1].name , nom ) ; 
     // if(nb_processus == 1)
     table_of_processus[nb_processus -1].etat = activable ;
+    table_of_processus[nb_processus -1].wake_up = 0 ;
     // else
     //     new_pid.etat = endormi ; 
     table_of_processus[nb_processus-1].pile[511] = (int) code; 
-    table_of_processus[nb_processus- 1].sauvegard[1] = (uint32_t)&table_of_processus[nb_processus-1].pile[511]; //(int)(new_pid.pile + 510) ;
+    table_of_processus[nb_processus- 1].sauvegard[1] =  (uint32_t)&table_of_processus[nb_processus-1].pile[511]; //(int)(new_pid.pile + 510) ;
     
     return nb_processus;
   
